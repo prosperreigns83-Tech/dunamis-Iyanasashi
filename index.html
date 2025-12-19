@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dunamis Church | Home</title>
-  <link rel="stylesheet" href="./style.css">
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
 
@@ -212,8 +211,16 @@ footer {
   <p>© 2025 Dunamis Church, Iyanosashi</p>
 </footer>
 
-<script src="js/main.js"></script>
+<script>
+  const toggle = document.querySelector('.menu-toggle');
+const navLinks = document.querySelector('.nav-links');
+
+toggle.addEventListener('click', () => {
+  navLinks.classList.toggle('show');
+});
+</script>
 </body>
 </html>
+
 
 
