@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Manage Events | Admin</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="admin.css">
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+
+:root {
+  --primary: #0a2a66;
+  --light: #f4f6fa;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
+  background: var(--light);
+}
+
+/* LAYOUT */
+.admin-container {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* SIDEBAR */
+.sidebar {
+  width: 230px;
+  background: var(--primary);
+  color: white;
+  padding: 20px;
+}
+
+.sidebar h2 {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.sidebar a {
+  display: block;
+  color: white;
+  text-decoration: none;
+  margin: 15px 0;
+  font-weight: 500;
+}
+
+.sidebar a:hover {
+  text-decoration: underline;
+}
+
+/* CONTENT */
+.content {
+  flex: 1;
+  padding: 30px;
+}
+
+.card {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+button {
+  background: var(--primary);
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .admin-container {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    text-align: center;
+  }
+}
+button {
+  display: inline-block;
+  margin-top: 8px;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+button.delete {
+  background: red;
+}
+
+</style>
+</head>
+
+<body>
+
+<script>
+if (localStorage.getItem("adminLoggedIn") !== "true") {
+  window.location.href = "admin-login.html";
+}
+</script>
+
+<div class="admin-container">
+
+  <div class="sidebar">
+    <h2>Dunamis Admin</h2>
+    <a href="admin-dashboard.html">🏠 Dashboard</a>
+    <a href="admin-leadership.html">👤 Leadership</a>
+    <a href="admin-sermons.html">🎤 Sermons</a>
+    <a href="admin-events.html">📅 Events</a>
+    <a href="#" onclick="logout()">🚪 Logout</a>
+  </div>
+
+  <div class="content">
+    <h1>Church Programs</h1>
+
+    <!-- UPLOAD FORM -->
+    <div class="card">
+      <h3>Add New Event</h3>
+      <form id="eventForm">
+        <input type="text" id="title" placeholder="Event Title" required><br><br>
+        <input type="date" id="date" required><br><br>
+        <textarea id="description" placeholder="Event Description" required></textarea><br><br>
+        <input type="file" id="image" required><br><br>
+        <button type="submit">Publish Event</button>
+      </form>
+    </div>
+
+    <!-- EVENT LIST -->
+    <div class="card">
+      <h3>Manage Events</h3>
+      <div id="adminEvents"></div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+let events = JSON.parse(localStorage.getItem("events")) || [];
+const adminEvents = document.getElementById("adminEvents");
+
+function renderEvents() {
+  adminEvents.innerHTML = "";
+
+  if (events.length === 0) {
+    adminEvents.innerHTML = "<p>No events yet.</p>";
+    return;
+  }
+
+  events.forEach((event, index) => {
+    const div = document.createElement("div");
+    div.style.marginBottom = "20px";
+    div.style.borderBottom = "1px solid #ddd";
+    div.style.paddingBottom = "10px";
+
+   div.innerHTML = `
+  <p><strong>${event.title}</strong></p>
+  <p>${event.date}</p>
+
+  <button onclick="editEvent(${index})">Edit</button>
+  <button onclick="deleteEvent(${index})" class="delete">Delete</button>
+`;
+
+
+    adminEvents.appendChild(div);
+  });
+}
+
+document.getElementById("eventForm").addEventListener("submit", function(e){
+  e.preventDefault();
+
+  const title = document.getElementById("title").value;
+  const date = document.getElementById("date").value;
+  const description = document.getElementById("description").value;
+  const imageFile = document.getElementById("image").files[0];
+  const imageUrl = URL.createObjectURL(imageFile);
+
+  events.push({ title, date, description, imageUrl });
+  localStorage.setItem("events", JSON.stringify(events));
+
+  this.reset();
+  renderEvents();
+  alert("Event added!");
+});
+
+function deleteEvent(index) {
+  if (confirm("Delete this event?")) {
+    events.splice(index, 1);
+    localStorage.setItem("events", JSON.stringify(events));
+    renderEvents();
+  }
+}
+
+function editEvent(index) {
+  const newTitle = prompt("Edit Title", events[index].title);
+  const newDate = prompt("Edit Date (YYYY-MM-DD)", events[index].date);
+  const newDesc = prompt("Edit Description", events[index].description);
+
+  if (newTitle && newDate && newDesc) {
+    events[index].title = newTitle;
+    events[index].date = newDate;
+    events[index].description = newDesc;
+
+    localStorage.setItem("events", JSON.stringify(events));
+    renderEvents();
+  }
+}
+
+function logout() {
+  localStorage.removeItem("adminLoggedIn");
+  window.location.href = "admin-login.html";
+}
+
+renderEvents();
+</script>
+
+</body>
+</html>
