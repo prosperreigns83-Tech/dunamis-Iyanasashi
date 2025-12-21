@@ -1,17 +1,16 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <title>Admin Upload | Dunamis Church</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="css/style.css">
-  <style>
+<meta charset="UTF-8">
+<title>Upload Sermons</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="admin.css">
+<style>
   @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
 
 :root {
   --primary: #0a2a66;
-  --secondary: #ffffff;
-  --accent: #4da3ff;
+  --light: #f4f6fa;
 }
 
 * {
@@ -21,223 +20,140 @@
   font-family: 'Poppins', sans-serif;
 }
 
-
-
 body {
-  background: var(--secondary);
-  color: #222;
-  line-height: 1.6;
+  background: var(--light);
 }
 
-/* NAVBAR */
-header {
+/* LAYOUT */
+.admin-container {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* SIDEBAR */
+.sidebar {
+  width: 230px;
   background: var(--primary);
-  padding: 15px 40px;
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-}
-
-.navbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.logo {
   color: white;
-  font-size: 24px;
-  font-weight: 700;
+  padding: 20px;
 }
 
-.nav-links {
-  display: flex;
-  gap: 25px;
+.sidebar h2 {
+  text-align: center;
+  margin-bottom: 30px;
 }
 
-.nav-links a {
+.sidebar a {
+  display: block;
   color: white;
   text-decoration: none;
+  margin: 15px 0;
   font-weight: 500;
 }
 
-.menu-toggle {
-  display: none;
-  font-size: 26px;
-  color: white;
-  cursor: pointer;
+.sidebar a:hover {
+  text-decoration: underline;
 }
 
-/* HERO */
-.hero {
-  background: linear-gradient(rgba(10,42,102,0.8), rgba(10,42,102,0.8)),
-              url('https://images.unsplash.com/photo-1529070538774-1843cb3265df') center/cover;
-  color: white;
-  padding: 120px 20px;
-  text-align: center;
+/* CONTENT */
+.content {
+  flex: 1;
+  padding: 30px;
 }
 
-.hero h1 {
-  font-size: 48px;
-}
-
-.hero p {
-  margin: 15px 0;
-  font-size: 18px;
-}
-
-.btn {
-  background: var(--accent);
-  color: white;
-  padding: 12px 30px;
-  border-radius: 5px;
-  text-decoration: none;
-  display: inline-block;
-  margin-top: 20px;
-}
-
-/* SECTIONS */
-section {
-  padding: 60px 40px;
-  max-width: 1100px;
-  margin: auto;
-}
-
-section h2 {
-  color: var(--primary);
+.card {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
   margin-bottom: 20px;
-  text-align: center;
 }
 
-/* FOOTER */
-footer {
+button {
   background: var(--primary);
   color: white;
-  text-align: center;
-  padding: 20px;
-  margin-top: 50px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
 /* RESPONSIVE */
 @media (max-width: 768px) {
-  .nav-links {
-    display: none;
+  .admin-container {
     flex-direction: column;
-    background: var(--primary);
-    position: absolute;
-    top: 65px;
-    right: 0;
+  }
+
+  .sidebar {
     width: 100%;
-    padding: 20px;
-  }
-
-  .nav-links.show {
-    display: flex;
-  }
-
-  .menu-toggle {
-    display: block;
-  }
-
-  .hero h1 {
-    font-size: 34px;
+    text-align: center;
   }
 }
 
-    form {
-      max-width: 500px;
-      margin: 50px auto;
-    }
-    form input, form select, form button {
-      width: 100%;
-      padding: 12px;
-      margin: 10px 0;
-    }
-    #uploadFormSection {
-      display: none;
-    }
-  </style>
+</style>
 </head>
+
 <body>
 
+<script>
+if (localStorage.getItem("adminLoggedIn") !== "true") {
+  window.location.href = "admin-login.html";
+}
+</script>
 
-<header>
-  <div class="navbar">
-    <div class="logo">Dunamis</div>
-    <div class="menu-toggle">☰</div>
-    <nav class="nav-links">
-      <a href="index.html">Home</a>
-      <a href="sermons.html">Sermons</a>
-    
-    
-    </nav>
+<div class="admin-container">
+
+  <div class="sidebar">
+    <h2>Dunamis Admin</h2>
+    <a href="admin-dashboard.html">🏠 Dashboard</a>
+    <a href="admin-leadership.html">👤 Leadership</a>
+    <a href="admin-sermons.html">🎤 Sermons</a>
+    <a href="#" onclick="logout()">🚪 Logout</a>
   </div>
-    </nav>
+
+  <div class="content">
+    <h1>Upload Sermon</h1>
+
+    <div class="card">
+      <form id="uploadForm">
+        <input type="text" id="title" placeholder="Sermon Title" required><br><br>
+
+        <select id="type">
+          <option value="video">Video</option>
+          <option value="audio">Audio</option>
+        </select><br><br>
+
+        <input type="file" id="file" required><br><br>
+
+        <button type="submit">Upload</button>
+      </form>
+    </div>
   </div>
-</header>
-<section id="uploadFormSection">
-  <h2>Upload Pastor Message</h2>
-  <form id="uploadForm">
-    <input type="text" id="title" placeholder="Sermon Title" required>
-    <select id="type" required>
-      <option value="">Select Type</option>
-      <option value="video">Video</option>
-      <option value="audio">Audio</option>
-    </select>
-    <input type="file" id="file" accept="audio/*,video/*" required>
-    <button type="submit">Upload Sermon</button>
-  </form>
-</section>
+
+</div>
 
 <script>
-  // ===== Password Protection =====
-  const adminPassword = "ADMIN2006"; // Change this to your own password
-  const formSection = document.getElementById("uploadFormSection");
+let sermons = JSON.parse(localStorage.getItem("sermons")) || [];
 
-  let entered = prompt("Enter admin password to access this page:");
-  if (entered !== adminPassword) {
-    alert("Wrong password! Redirecting to homepage.");
-    window.location.href = "index.html"; // redirect members away
-  } else {
-    formSection.style.display = "block"; // show the form
-  }
+document.getElementById("uploadForm").addEventListener("submit", function(e){
+  e.preventDefault();
 
-  // ===== Upload Sermons =====
-  let sermons = JSON.parse(localStorage.getItem("sermons")) || [];
+  const title = title.value;
+  const type = document.getElementById("type").value;
+  const file = document.getElementById("file").files[0];
 
-  const uploadForm = document.getElementById("uploadForm");
-  uploadForm.addEventListener("submit", function(e){
-    e.preventDefault();
-    const title = document.getElementById("title").value;
-    const type = document.getElementById("type").value;
-    const fileInput = document.getElementById("file");
-    const file = fileInput.files[0];
-    const url = URL.createObjectURL(file);
+  const url = URL.createObjectURL(file);
+  sermons.push({ title, type, url });
 
-    sermons.push({title, type, url});
-    localStorage.setItem("sermons", JSON.stringify(sermons));
-
-    alert("Sermon uploaded successfully!");
-    uploadForm.reset();
-  });
-
-  
-  const toggle = document.querySelector('.menu-toggle');
-const navLinks = document.querySelector('.nav-links');
-
-toggle.addEventListener('click', () => {
-  navLinks.classList.toggle('show');
+  localStorage.setItem("sermons", JSON.stringify(sermons));
+  alert("Sermon uploaded!");
+  this.reset();
 });
+
+function logout() {
+  localStorage.removeItem("adminLoggedIn");
+  window.location.href = "admin-login.html";
+}
 </script>
 
 </body>
 </html>
-
-
-
-
-
-
-
-
-
