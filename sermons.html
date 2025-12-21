@@ -142,24 +142,6 @@ footer {
     font-size: 34px;
   }
 }
-/* ===== WHATSAPP BUTTON ===== */
-.whatsapp-btn {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  background: #25D366;
-  color: #ffffff;
-  padding: 14px 16px;
-  border-radius: 50%;
-  font-size: 22px;
-  text-decoration: none;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-  z-index: 2000;
-}
-
-.whatsapp-btn:hover {
-  background: #1ebe5d;
-}
 
  </style>
 </head>
@@ -167,7 +149,7 @@ footer {
 
 <header>
   <div class="navbar">
-    <div class="logo">Dunamis Iyanasashi</div>
+    <div class="logo">Dunamis</div>
     <div class="menu-toggle">☰</div>
     <nav class="nav-links">
       <a href="index.html">Home</a>
@@ -177,40 +159,106 @@ footer {
       <a href="sermons.html">Sermons</a>
       <a href="give.html">Give</a>
       <a href="contact.html">Contact</a>
-        <a href="contact.html">Message</a>
     </nav>
   </div>
 </header>
 
 <section>
-  <h2>Latest Sermons</h2>
-  <p>
-    • Walking in Divine Power<br>
-    • Faith That Overcomes<br>
-    • The Authority of the Believer<br>
-    • Living a Spirit-Filled Life
-  </p>
-
-  <p>
-    Audio and video sermons will be uploaded here regularly
-    to bless members and online visitors.
+  <h2>Sermons</h2>
+  <p style="max-width:800px; margin:auto; text-align:center;">
+    Be blessed by the Word of God through our sermon messages.
+    These teachings are meant to build faith, strengthen believers,
+    and reveal God’s purpose for your life.
   </p>
 </section>
-<a
-  href="https://wa.me/234XXXXXXXXXX"
-  class="whatsapp-btn"
-  target="_blank"
-  aria-label="Chat with us on WhatsApp"
->
-  💬
-  
-</a>
+
+<section>
+  <h2>Recent Messages</h2>
+  <p style="max-width:700px; margin:auto;">
+    • Walking in Divine Power<br>
+    • Faith That Overcomes Challenges<br>
+    • The Authority of the Believer<br>
+    • Living a Spirit-Filled Life<br>
+    • Growing in Grace and Truth
+  </p>
+</section>
+
+<section>
+  <h2>Media Messages</h2>
+  <p style="max-width:700px; margin:auto;">
+    Audio and video sermons will be uploaded regularly.
+    Members and online visitors will be able to listen,
+    watch, and download messages for spiritual growth.
+  </p>
+</section>
+  <section>
+  <h2>Pastor Messages</h2>
+  <div id="sermonList"></div>
+</section>
 <footer>
-  <p>© 2025 Dunamis Church, Iyanasashi</p>
+  <p>© 2025 Dunamis Church, Iyanosashi</p>
 </footer>
 
 </body>
 <script>
+
+
+  let sermons = JSON.parse(localStorage.getItem("sermons")) || [];
+
+// UPLOAD SERMON
+const uploadForm = document.getElementById("uploadForm");
+
+if (uploadForm) {
+  uploadForm.addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    const title = document.getElementById("title").value;
+    const type = document.getElementById("type").value;
+    const fileInput = document.getElementById("file");
+
+    const file = fileInput.files[0];
+    const url = URL.createObjectURL(file);
+
+    sermons.push({ title, type, url });
+    localStorage.setItem("sermons", JSON.stringify(sermons));
+
+    alert("Sermon uploaded successfully!");
+    uploadForm.reset();
+  });
+}
+
+// DISPLAY SERMONS
+const sermonList = document.getElementById("sermonList");
+
+if (sermonList) {
+  sermons.forEach((sermon) => {
+    const div = document.createElement("div");
+    div.style.marginBottom = "30px";
+
+    if (sermon.type === "video") {
+      div.innerHTML = `
+        <h3>${sermon.title}</h3>
+        <video controls width="100%">
+          <source src="${sermon.url}">
+        </video>
+      `;
+    } else {
+      div.innerHTML = `
+        <h3>${sermon.title}</h3>
+        <audio controls style="width:100%">
+          <source src="${sermon.url}">
+        </audio>
+      `;
+    }
+
+    sermonList.appendChild(div);
+  });
+}
+
+
+
+
+
   const toggle = document.querySelector('.menu-toggle');
 const navLinks = document.querySelector('.nav-links');
 
@@ -220,5 +268,7 @@ toggle.addEventListener('click', () => {
 
 </script>
 </html>
+
+
 
 
