@@ -142,7 +142,24 @@ footer {
     font-size: 34px;
   }
 }
+/* ===== WHATSAPP BUTTON ===== */
+.whatsapp-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: #25D366;
+  color: #ffffff;
+  padding: 14px 16px;
+  border-radius: 50%;
+  font-size: 22px;
+  text-decoration: none;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  z-index: 2000;
+}
 
+.whatsapp-btn:hover {
+  background: #1ebe5d;
+}
   </style>
 </head>
 <body>
@@ -184,9 +201,18 @@ footer {
     Account Number: XXXXXXXXXX
   </p>
 </section>
+<a
+  href="https://wa.me/234XXXXXXXXXX"
+  class="whatsapp-btn"
+  target="_blank"
+  aria-label="Chat with us on WhatsApp"
+>
+  💬
+  
+</a>
 
 <footer>
-  <p>© 2025 Dunamis Church, Iyanosashi</p>
+  <p>© 2025 Dunamis Church, Iyanasashi</p>
 </footer>
 </body>
 <script>
@@ -199,3 +225,4 @@ toggle.addEventListener('click', () => {
 
 </script>
 </html>
+
