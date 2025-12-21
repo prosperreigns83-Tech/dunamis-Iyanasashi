@@ -165,9 +165,14 @@ video, audio {
 <header>
   <div class="navbar">
     <div class="logo">Dunamis</div>
+    <div class="menu-toggle">☰</div>
     <nav class="nav-links">
       <a href="index.html">Home</a>
-      <a href="sermons.html">Sermons</a>
+      <a href="./sermon2.html">Sermons</a>
+    
+    
+    </nav>
+  </div>>
     </nav>
   </div>
 </header>
@@ -243,6 +248,15 @@ if (sermonList) {
   });
 }
 
+
+const toggle = document.querySelector('.menu-toggle');
+const navLinks = document.querySelector('.nav-links');
+
+toggle.addEventListener('click', () => {
+  navLinks.classList.toggle('show');
+});
 </script>
 </body>
 </html>
+
+
