@@ -2,11 +2,11 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Upload Sermon | Dunamis Church</title>
+  <title>Admin Upload | Dunamis Church</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="css/style.css">
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
 
 :root {
   --primary: #0a2a66;
@@ -143,120 +143,89 @@ footer {
     font-size: 34px;
   }
 }
-form {
-  max-width: 500px;
-  margin: auto;
-}
 
-form input, form select {
-  width: 100%;
-  padding: 12px;
-  margin: 10px 0;
-}
-
-video, audio {
-  margin-top: 10px;
-}
-
+    form {
+      max-width: 500px;
+      margin: 50px auto;
+    }
+    form input, form select, form button {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+    }
+    #uploadFormSection {
+      display: none;
+    }
   </style>
 </head>
 <body>
 
+
 <header>
   <div class="navbar">
-    <div class="logo">Dunamis Iyanasashi</div>
+    <div class="logo">Dunamis</div>
     <div class="menu-toggle">☰</div>
     <nav class="nav-links">
       <a href="index.html">Home</a>
-      <a href="./sermons.html">Sermons</a>
+      <a href="./sermon2.html">Sermons</a>
     
     
     </nav>
-  </div>>
+  </div>
     </nav>
   </div>
 </header>
-<section>
+<section id="uploadFormSection">
   <h2>Upload Pastor Message</h2>
   <form id="uploadForm">
     <input type="text" id="title" placeholder="Sermon Title" required>
-    
     <select id="type" required>
       <option value="">Select Type</option>
       <option value="video">Video</option>
       <option value="audio">Audio</option>
     </select>
-
     <input type="file" id="file" accept="audio/*,video/*" required>
-
     <button type="submit">Upload Sermon</button>
   </form>
 </section>
 
-
 <script>
+  // ===== Password Protection =====
+  const adminPassword = "ADMIN2006"; // Change this to your own password
+  const formSection = document.getElementById("uploadFormSection");
+
+  let entered = prompt("Enter admin password to access this page:");
+  if (entered !== adminPassword) {
+    alert("Wrong password! Redirecting to homepage.");
+    window.location.href = "index.html"; // redirect members away
+  } else {
+    formSection.style.display = "block"; // show the form
+  }
+
+  // ===== Upload Sermons =====
   let sermons = JSON.parse(localStorage.getItem("sermons")) || [];
 
-// UPLOAD SERMON
-const uploadForm = document.getElementById("uploadForm");
-
-if (uploadForm) {
-  uploadForm.addEventListener("submit", function (e) {
+  const uploadForm = document.getElementById("uploadForm");
+  uploadForm.addEventListener("submit", function(e){
     e.preventDefault();
-
     const title = document.getElementById("title").value;
     const type = document.getElementById("type").value;
     const fileInput = document.getElementById("file");
-
     const file = fileInput.files[0];
     const url = URL.createObjectURL(file);
 
-    sermons.push({ title, type, url });
+    sermons.push({title, type, url});
     localStorage.setItem("sermons", JSON.stringify(sermons));
 
     alert("Sermon uploaded successfully!");
     uploadForm.reset();
   });
-}
-
-// DISPLAY SERMONS
-const sermonList = document.getElementById("sermonList");
-
-if (sermonList) {
-  sermons.forEach((sermon) => {
-    const div = document.createElement("div");
-    div.style.marginBottom = "30px";
-
-    if (sermon.type === "video") {
-      div.innerHTML = `
-        <h3>${sermon.title}</h3>
-        <video controls width="100%">
-          <source src="${sermon.url}">
-        </video>
-      `;
-    } else {
-      div.innerHTML = `
-        <h3>${sermon.title}</h3>
-        <audio controls style="width:100%">
-          <source src="${sermon.url}">
-        </audio>
-      `;
-    }
-
-    sermonList.appendChild(div);
-  });
-}
-
-
-const toggle = document.querySelector('.menu-toggle');
-const navLinks = document.querySelector('.nav-links');
-
-toggle.addEventListener('click', () => {
-  navLinks.classList.toggle('show');
-});
 </script>
+
 </body>
 </html>
+
+
 
 
 
