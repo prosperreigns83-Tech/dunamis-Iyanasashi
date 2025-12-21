@@ -326,7 +326,29 @@ footer {
       <h3>Imonikpe Promise</h3>
       <p>Life Streaming Service</p>
     </div>
-   
+   <section>
+  <h2>Leadership & Departments</h2>
+  <div class="grid" id="leaders"></div>
+</section>
+
+<script>
+const leaders = JSON.parse(localStorage.getItem("leadership")) || [];
+const container = document.getElementById("leaders");
+
+leaders.forEach(item => {
+  const card = document.createElement("div");
+  card.className = "card";
+
+  card.innerHTML = `
+    <img src="${item.imageURL}">
+    <h3>${item.name}</h3>
+    <p>${item.role}</p>
+  `;
+
+  container.appendChild(card);
+});
+</script>
+<section>
   <div class="grid">
     <div class="card">
       <img src="./choir.jpg" alt="Choir">
@@ -368,6 +390,7 @@ toggle.addEventListener('click', () => {
 
 </script>
 </html>
+
 
 
 
