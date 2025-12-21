@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Admin | Leadership Upload</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+  body {
+    font-family: Poppins, sans-serif;
+    background: #f4f6fb;
+    padding: 40px;
+  }
+  h2 {
+    color: #0a2a66;
+    text-align: center;
+  }
+  form {
+    max-width: 500px;
+    background: white;
+    padding: 25px;
+    margin: 20px auto;
+    border-radius: 8px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+  }
+  input, select, button {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+  }
+  button {
+    background: #0a2a66;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
+</style>
+</head>
+
+<body>
+<script>
+if (localStorage.getItem("adminLoggedIn") !== "true") {
+  window.location.href = "admin-login.html";
+}
+</script>
+
+<h2>Leadership Upload (Admin Only)</h2>
+
+<form id="uploadForm" style="display:none">
+  <input type="text" id="name" placeholder="Name / Department" required>
+  <select id="role">
+    <option value="Pastor">Pastor</option>
+    <option value="Department">Department</option>
+  </select>
+  <input type="file" id="image" accept="image/*" required>
+  <button type="submit">Upload</button>
+</form>
+
+<script>
+/* PASSWORD PROTECTION */
+const adminPassword = "ADMIN2006"; // CHANGE THIS
+const entered = prompt("Enter admin password");
+
+if (entered === adminPassword) {
+  document.getElementById("uploadForm").style.display = "block";
+} else {
+  alert("Access denied!");
+  window.location.href = "index.html";
+}
+
+/* SAVE DATA */
+let leadership = JSON.parse(localStorage.getItem("leadership")) || [];
+
+document.getElementById("uploadForm").addEventListener("submit", function(e){
+  e.preventDefault();
+
+  const name = document.getElementById("name").value;
+  const role = document.getElementById("role").value;
+  const imageFile = document.getElementById("image").files[0];
+  const imageURL = URL.createObjectURL(imageFile);
+
+  leadership.push({ name, role, imageURL });
+  localStorage.setItem("leadership", JSON.stringify(leadership));
+
+  alert("Uploaded successfully!");
+  this.reset();
+});
+</script>
+
+</body>
+</html>
