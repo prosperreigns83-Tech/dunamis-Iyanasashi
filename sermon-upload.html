@@ -176,17 +176,15 @@ video, audio {
     </nav>
   </div>
 </header>
-
 <section>
   <h2>Upload Pastor Message</h2>
-
   <form id="uploadForm">
     <input type="text" id="title" placeholder="Sermon Title" required>
-
+    
     <select id="type" required>
       <option value="">Select Type</option>
-      <option value="video">Video Sermon</option>
-      <option value="audio">Audio Sermon</option>
+      <option value="video">Video</option>
+      <option value="audio">Audio</option>
     </select>
 
     <input type="file" id="file" accept="audio/*,video/*" required>
@@ -194,6 +192,7 @@ video, audio {
     <button type="submit">Upload Sermon</button>
   </form>
 </section>
+
 
 <script>
   let sermons = JSON.parse(localStorage.getItem("sermons")) || [];
@@ -258,6 +257,7 @@ toggle.addEventListener('click', () => {
 </script>
 </body>
 </html>
+
 
 
 
