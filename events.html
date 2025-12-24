@@ -150,12 +150,16 @@ footer {
 <body>
 
 <header>
-  <div class="navbar">
-    <div class="logo">Dunamis</div>
+     <div class="navbar">
+    <div class="logo">Dunamis Iyanasashi</div>
+    <div class="menu-toggle">☰</div>
     <nav class="nav-links">
       <a href="index.html">Home</a>
-      <a href="events.html">Programs</a>
+      <a href="about.html">About</a>
+      <a href="leadership.html">Leadership</a>
+      <a href="services.html">Services</a>
       <a href="sermons.html">Sermons</a>
+      <a href="give.html">Give</a>
       <a href="contact.html">Contact</a>
     </nav>
   </div>
@@ -167,7 +171,7 @@ footer {
 </section>
 
 <footer>
-  <p>© 2025 Dunamis Church, Iyanosashi</p>
+  <p>© 2025 Dunamis Church, Iyanasashi</p>
 </footer>
 
 <script>
@@ -191,7 +195,16 @@ events.forEach(event => {
 
   eventsList.appendChild(div);
 });
+
+    const toggle = document.querySelector('.menu-toggle');
+const navLinks = document.querySelector('.nav-links');
+
+toggle.addEventListener('click', () => {
+  navLinks.classList.toggle('show');
+});
+
 </script>
 
 </body>
 </html>
+
