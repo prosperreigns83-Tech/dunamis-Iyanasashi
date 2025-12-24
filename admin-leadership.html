@@ -85,7 +85,35 @@ document.getElementById("uploadForm").addEventListener("submit", function(e){
   alert("Uploaded successfully!");
   this.reset();
 });
+let leaders = JSON.parse(localStorage.getItem("leaders")) || [];
+
+document.getElementById("leaderForm").addEventListener("submit", function(e){
+  e.preventDefault();
+
+  const name = document.getElementById("name").value;
+  const role = document.getElementById("role").value;
+  const imageFile = document.getElementById("image").files[0];
+
+  const reader = new FileReader();
+  reader.onload = function() {
+    leaders.push({
+      name,
+      role,
+      image: reader.result   // BASE64 image
+    });
+
+    localStorage.setItem("leaders", JSON.stringify(leaders));
+    alert("Leader added successfully!");
+    document.getElementById("leaderForm").reset();
+  };
+
+  reader.readAsDataURL(imageFile);
+});
+
+
 </script>
 
 </body>
 </html>
+
+
